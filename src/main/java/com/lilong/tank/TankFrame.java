@@ -12,9 +12,7 @@ import java.awt.event.WindowEvent;
  * @description
  */
 public class TankFrame extends Frame {
-    private int x=50;
-    private int y=50;
-    Tank tank = new Tank(200, 200, DirEnum.DOWN);
+    Tank tank = new Tank(200, 200);
     private static final int SPEED=10;
     public TankFrame() {
         setVisible(true);
@@ -67,6 +65,7 @@ public class TankFrame extends Frame {
                 default:
                     break;
             }
+            tank.setMoving(true);
             setMainTankDirectory();
         }
 
@@ -90,24 +89,25 @@ public class TankFrame extends Frame {
                 default:
                     break;
             }
-
+            tank.setMoving(false);
         }
 
         private void setMainTankDirectory(){
+
             if(ku){
                 tank.setDir(DirEnum.UP);
             }
+
             if (kd) {
                 tank.setDir(DirEnum.DOWN);
-
             }
+
             if (kl) {
                 tank.setDir(DirEnum.LEFT);
-
             }
+
             if (kr) {
                 tank.setDir(DirEnum.RIGHT);
-
             }
 
         }

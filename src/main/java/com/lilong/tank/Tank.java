@@ -9,16 +9,34 @@ import java.awt.*;
  */
 
 public class Tank {
+    /**
+     * x轴坐标
+     */
     private int x;
-    private int y;
-    private DirEnum dir;
 
+    /**
+     * y轴坐标
+     */
+    private int y;
+
+    /**
+     * 坦克的方向
+     */
+    private DirEnum dir=DirEnum.DOWN;
+
+    /**
+     * 坦克的移动速度
+     */
     private static final int SPEED=10;
 
-    public Tank(int x, int y, DirEnum dir) {
+    /**
+     * 坦克是否 移动
+     */
+    private boolean isMoving = false;
+
+    public Tank(int x, int y) {
         this.x = x;
         this.y = y;
-        this.dir = dir;
     }
 
     public int getX() {
@@ -41,6 +59,14 @@ public class Tank {
         return dir;
     }
 
+    public boolean isMoving() {
+        return isMoving;
+    }
+
+    public void setMoving(boolean moving) {
+        isMoving = moving;
+    }
+
     public void setDir(DirEnum dir) {
         this.dir = dir;
     }
@@ -48,6 +74,17 @@ public class Tank {
 
     public void paint(Graphics g){
         g.fillRect(x,y,50,50);
+       move();
+
+
+    }
+
+    private void move(){
+
+        if (!isMoving) {
+            return ;
+        }
+
         switch (dir){
             case UP:
                 y-=SPEED;
@@ -62,7 +99,6 @@ public class Tank {
                 x+=SPEED;
                 break;
         }
-
     }
 
 
