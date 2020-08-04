@@ -12,12 +12,19 @@ import java.awt.event.WindowEvent;
  * @description
  */
 public class TankFrame extends Frame {
-    Tank tank = new Tank(200, 200);
-    private static final int SPEED=10;
+    Tank tank = new Tank(200, 200,this);
+    Bullet bullet=new Bullet(300,300,tank.getDir());
+
+
+
+    static final int GAME_WIDTH=800;
+    static final int GAME_HEIGHT=600;
+
+
     public TankFrame() {
         setVisible(true);
         //设置 长，宽
-        setSize(800,600);
+        setSize(GAME_WIDTH,GAME_HEIGHT);
         //设置 不可修改长，宽
         setResizable(false);
         //设置 标题
@@ -31,13 +38,29 @@ public class TankFrame extends Frame {
         });
         addKeyListener(new KeyListener());
     }
-
+    Image offScreenImage = null;
+    @Override
+    public void update(Graphics g) {
+        if(offScreenImage == null) {
+            offScreenImage = this.createImage(GAME_WIDTH, GAME_HEIGHT);
+        }
+        Graphics gOffScreen = offScreenImage.getGraphics();
+        Color c = gOffScreen.getColor();
+        gOffScreen.setColor(Color.BLACK);
+        gOffScreen.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
+        gOffScreen.setColor(c);
+        paint(gOffScreen);
+        g.drawImage(offScreenImage, 0, 0, null);
+    }
     @Override
     public void paint(Graphics g) {
         System.out.println("paint");
         tank.paint(g);
 
+
+
     }
+
 
     class KeyListener extends KeyAdapter{
         boolean kl=false;
@@ -61,6 +84,9 @@ public class TankFrame extends Frame {
                     break;
                 case KeyEvent.VK_RIGHT :
                     kr=true;
+                    break;
+                case KeyEvent.VK_SPACE:
+                    tank.fireBullet();
                     break;
                 default:
                     break;

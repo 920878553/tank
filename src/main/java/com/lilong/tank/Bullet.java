@@ -4,45 +4,21 @@ import java.awt.*;
 
 /**
  * @author liLong
- * @date 2020/8/4 15:57
- * @description 坦克
+ * @date 2020/8/4 17:48
+ * @description 子弹
  */
-
-public class Tank {
-
-    /**
-     * tankFrame对象
-     */
-    private TankFrame tankFrame=null;
-    /**
-     * x轴坐标
-     */
+public class Bullet {
+    private static final int SPEED=10;
     private int x;
-
-    /**
-     * y轴坐标
-     */
     private int y;
+    private DirEnum dir;
+    private static final int WIDTH=20;
+    private static final int HEIGHT=20;
 
-    /**
-     * 坦克的方向
-     */
-    private DirEnum dir=DirEnum.DOWN;
-
-    /**
-     * 坦克的移动速度
-     */
-    private static final int SPEED=5;
-
-    /**
-     * 坦克是否 移动
-     */
-    private boolean isMoving = false;
-
-    public Tank(int x, int y, TankFrame tankFrame) {
+    public Bullet(int x, int y, DirEnum dir) {
         this.x = x;
         this.y = y;
-        this.tankFrame =tankFrame;
+        this.dir = dir;
     }
 
     public int getX() {
@@ -65,36 +41,19 @@ public class Tank {
         return dir;
     }
 
-    public boolean isMoving() {
-        return isMoving;
-    }
-
-    public void setMoving(boolean moving) {
-        isMoving = moving;
-    }
-
     public void setDir(DirEnum dir) {
         this.dir = dir;
     }
 
-
     public void paint(Graphics g){
         Color color = g.getColor();
-        g.setColor(Color.YELLOW);
-        g.fillRect(x,y,50,50);
+        g.setColor(Color.RED);
+        g.fillOval(x,y,WIDTH,HEIGHT);
+        move();
         g.setColor(color);
-       move();
-
-
-
     }
 
-    private void move(){
-
-        if (!isMoving) {
-            return ;
-        }
-
+    public void move(){
         switch (dir){
             case UP:
                 y-=SPEED;
@@ -108,13 +67,8 @@ public class Tank {
             case RIGHT:
                 x+=SPEED;
                 break;
+            default:
+                break;
         }
-    }
-
-
-    public void fireBullet() {
-
-
-
     }
 }
