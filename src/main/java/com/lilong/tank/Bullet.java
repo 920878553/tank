@@ -1,5 +1,7 @@
 package com.lilong.tank;
 
+import lombok.Data;
+
 import java.awt.*;
 
 /**
@@ -7,6 +9,7 @@ import java.awt.*;
  * @date 2020/8/4 17:48
  * @description 子弹
  */
+@Data
 public class Bullet {
     private static final int SPEED=10;
     private int x;
@@ -14,10 +17,17 @@ public class Bullet {
     private DirEnum dir;
     private static final int WIDTH=20;
     private static final int HEIGHT=20;
+    private boolean isLive=true;
+    private TankFrame tankFrame=null;
 
-    public Bullet(int x, int y, DirEnum dir) {
+
+    public Bullet() {
+    }
+
+    public Bullet(int x, int y, DirEnum dir,TankFrame tankFrame) {
         this.x = x;
         this.y = y;
+        this.tankFrame=tankFrame;
         this.dir = dir;
     }
 
@@ -54,6 +64,14 @@ public class Bullet {
     }
 
     public void move(){
+
+        if(x<0||y<0||x>TankFrame.GAME_WIDTH||y>TankFrame.GAME_HEIGHT){
+            isLive=false;
+        }
+        if(!isLive){
+            tankFrame.bullets.remove(this);
+        }
+
         switch (dir){
             case UP:
                 y-=SPEED;

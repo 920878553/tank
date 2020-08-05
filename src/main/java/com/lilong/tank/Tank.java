@@ -1,13 +1,16 @@
 package com.lilong.tank;
 
+import lombok.Data;
+
 import java.awt.*;
+import java.util.Iterator;
 
 /**
  * @author liLong
  * @date 2020/8/4 15:57
  * @description 坦克
  */
-
+@Data
 public class Tank {
 
     /**
@@ -114,6 +117,12 @@ public class Tank {
 
     public void fireBullet() {
 
+
+
+        if (tankFrame.bullets.size()<10) {
+
+            tankFrame.bullets.add(new Bullet(x, y, dir,this.tankFrame));
+        }
 
 
     }

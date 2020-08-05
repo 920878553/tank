@@ -1,10 +1,14 @@
 package com.lilong.tank;
 
+
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * @author liLong
@@ -13,12 +17,14 @@ import java.awt.event.WindowEvent;
  */
 public class TankFrame extends Frame {
     Tank tank = new Tank(200, 200,this);
-    Bullet bullet=new Bullet(300,300,tank.getDir());
+    Bullet bullet=new Bullet(200,200,tank.getDir(),this);
+    List<Bullet> bullets = new ArrayList<Bullet>();
 
 
 
-    static final int GAME_WIDTH=800;
-    static final int GAME_HEIGHT=600;
+
+    public static final int GAME_WIDTH=800;
+    public static final int GAME_HEIGHT=600;
 
 
     public TankFrame() {
@@ -54,9 +60,17 @@ public class TankFrame extends Frame {
     }
     @Override
     public void paint(Graphics g) {
-        System.out.println("paint");
-        tank.paint(g);
 
+
+        System.out.println("paint");
+        Color color = g.getColor();
+        g.setColor(Color.CYAN);
+        g.drawString("子弹的数量："+ bullets.size(),20,50);
+        g.setColor(color);
+        tank.paint(g);
+        for (int i = 0; i < bullets.size(); i++) {
+            bullets.get(i).paint(g);
+        }
 
 
     }
@@ -75,23 +89,24 @@ public class TankFrame extends Frame {
             switch (key){
                 case KeyEvent.VK_UP :
                     ku=true;
+                    tank.setMoving(true);
                     break;
                 case KeyEvent.VK_DOWN :
                     kd=true;
+                    tank.setMoving(true);
                     break;
                 case KeyEvent.VK_LEFT :
                     kl=true;
+                    tank.setMoving(true);
                     break;
                 case KeyEvent.VK_RIGHT :
                     kr=true;
-                    break;
-                case KeyEvent.VK_SPACE:
-                    tank.fireBullet();
+                    tank.setMoving(true);
                     break;
                 default:
                     break;
             }
-            tank.setMoving(true);
+
             setMainTankDirectory();
         }
 
@@ -111,6 +126,9 @@ public class TankFrame extends Frame {
                     break;
                 case KeyEvent.VK_RIGHT :
                     kr=false;
+                    break;
+                case KeyEvent.VK_SPACE :
+                    tank.fireBullet();
                     break;
                 default:
                     break;
